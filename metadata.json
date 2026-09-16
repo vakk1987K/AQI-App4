@@ -1,0 +1,6 @@
+{
+  "name": "AQI-App: Air Quality & Weather",
+  "description": "Real-time Air Quality Index (AQI), live weather forecasts, pollutant analysis, and health advisories.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -2,14 +2,15 @@ import { FullAQIData, LocationData, PollutantDetail, HourlyDataPoint, DailyDataP
 import { getAQILevel, translateWeatherCode, degToCompass } from './aqiConstants';
 
 export const POPULAR_LOCATIONS: LocationData[] = [
+  { name: 'Mumbai', region: 'Maharashtra', country: 'India', latitude: 19.0760, longitude: 72.8777 },
+  { name: 'Chennai', region: 'Tamil Nadu', country: 'India', latitude: 13.0827, longitude: 80.2707 },
+  { name: 'Delhi', region: 'Delhi', country: 'India', latitude: 28.6139, longitude: 77.2090 },
   { name: 'Los Angeles', region: 'California', country: 'United States', latitude: 34.0522, longitude: -118.2437 },
   { name: 'New York', region: 'New York', country: 'United States', latitude: 40.7128, longitude: -74.0060 },
   { name: 'London', region: 'England', country: 'United Kingdom', latitude: 51.5074, longitude: -0.1278 },
   { name: 'Tokyo', region: 'Kanto', country: 'Japan', latitude: 35.6762, longitude: 139.6503 },
-  { name: 'Delhi', region: 'Delhi', country: 'India', latitude: 28.6139, longitude: 77.2090 },
   { name: 'Paris', region: 'Île-de-France', country: 'France', latitude: 48.8566, longitude: 2.3522 },
   { name: 'Sydney', region: 'New South Wales', country: 'Australia', latitude: -33.8688, longitude: 151.2093 },
-  { name: 'Beijing', region: 'Beijing', country: 'China', latitude: 39.9042, longitude: 116.4074 },
 ];
 
 export async function searchLocations(query: string): Promise<LocationData[]> {

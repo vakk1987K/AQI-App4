@@ -90,7 +90,7 @@ export function Header({
           <div className="flex items-center gap-2 shrink-0">
             <span className="flex items-center gap-1.5 text-[11px] font-bold text-sky-400 uppercase tracking-wider">
               <Globe className="w-3.5 h-3.5 text-sky-400" />
-              <span>Available in / उपलब्ध भाषाएं / భాషలు:</span>
+              <span>Languages / भाषा / భాష / भाषा / மொழி:</span>
             </span>
           </div>
 

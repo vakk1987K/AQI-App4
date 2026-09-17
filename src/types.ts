@@ -1,4 +1,4 @@
-export type Language = 'en' | 'hi' | 'te' | 'es';
+export type Language = 'en' | 'hi' | 'te' | 'mr' | 'ta' | 'es';
 
 export type AQICategory =
   | 'Good'

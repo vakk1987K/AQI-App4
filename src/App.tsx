@@ -41,7 +41,7 @@ export default function App() {
   const [language, setLanguage] = useState<Language>(() => {
     try {
       const saved = localStorage.getItem('aqi_preferred_language');
-      if (saved && ['en', 'hi', 'te', 'es'].includes(saved)) {
+      if (saved && ['en', 'hi', 'te', 'mr', 'ta', 'es'].includes(saved)) {
         return saved as Language;
       }
     } catch {}

@@ -1,4 +1,4 @@
-import { FullAQIData, LocationData, PollutantDetail, HourlyDataPoint, DailyDataPoint } from '../types';
+import { FullAQIData, LocationData, PollutantDetail, HourlyDataPoint, DailyDataPoint, RainForecastInfo } from '../types';
 import { getAQILevel, translateWeatherCode, degToCompass } from './aqiConstants';
 
 export const POPULAR_LOCATIONS: LocationData[] = [
@@ -47,7 +47,7 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
         `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=us_aqi,pm2_5,pm10,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone&hourly=us_aqi,pm2_5,pm10&forecast_days=3`
       ),
       fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max,sunrise,sunset&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,surface_pressure,wind_speed_10m,wind_direction_10m,precipitation&hourly=temperature_2m,weather_code,precipitation_probability,precipitation&daily=weather_code,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_sum,precipitation_probability_max,sunrise,sunset&timezone=auto`
       ),
     ]);
 
@@ -204,6 +204,8 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
       const hTempC = hourlyWeather.temperature_2m?.[i] ? Math.round(hourlyWeather.temperature_2m[i]) : tempC;
       const hPm25 = hourlyAqi.pm2_5?.[i] ? Number(hourlyAqi.pm2_5[i].toFixed(1)) : pm25Val;
       const hCode = hourlyWeather.weather_code?.[i] ?? weatherCode;
+      const hPrecipProb = hourlyWeather.precipitation_probability?.[i] != null ? Math.round(hourlyWeather.precipitation_probability[i]) : 0;
+      const hPrecipMm = hourlyWeather.precipitation?.[i] != null ? Number(hourlyWeather.precipitation[i].toFixed(1)) : 0;
 
       hourly.push({
         time: timeRaw,
@@ -214,8 +216,55 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
         pm2_5: hPm25,
         weatherCode: hCode,
         weatherDescription: translateWeatherCode(hCode).text,
+        precipitationProbability: hPrecipProb,
+        precipitationMm: hPrecipMm,
       });
     }
+
+    // Calculate smart RainForecastInfo
+    const currentPrecipMm = currWeather.precipitation != null ? Number(currWeather.precipitation.toFixed(1)) : 0;
+    const isRainingNow = currentPrecipMm > 0 || [51, 53, 55, 61, 63, 65, 80, 81, 82, 95, 96, 99].includes(weatherCode);
+    const todayMaxProb = dailyWeather.precipitation_probability_max?.[0] != null
+      ? Math.round(dailyWeather.precipitation_probability_max[0])
+      : Math.max(...hourly.slice(0, 12).map(h => h.precipitationProbability || 0), 0);
+    const todayTotalMm = dailyWeather.precipitation_sum?.[0] != null
+      ? Number(dailyWeather.precipitation_sum[0].toFixed(1))
+      : Number(hourly.slice(0, 12).reduce((sum, h) => sum + (h.precipitationMm || 0), 0).toFixed(1));
+
+    // Find the next hour rain is expected (> 35% probability or precipitation > 0.1 mm)
+    let nextRainExpectedTime: string | null = null;
+    let nextRainHoursAway: number | null = null;
+    let rainExpectedSummary = 'No rain expected in the next 24 hours';
+
+    if (isRainingNow) {
+      rainExpectedSummary = 'Rain is currently falling in this area';
+      nextRainExpectedTime = 'Now';
+      nextRainHoursAway = 0;
+    } else {
+      for (let hIdx = 0; hIdx < hourly.length; hIdx++) {
+        const h = hourly[hIdx];
+        if ((h.precipitationProbability && h.precipitationProbability >= 35) || (h.precipitationMm && h.precipitationMm >= 0.2)) {
+          nextRainExpectedTime = h.displayTime;
+          nextRainHoursAway = hIdx === 0 ? 1 : hIdx;
+          const probText = h.precipitationProbability ? ` (${h.precipitationProbability}% chance)` : '';
+          rainExpectedSummary = nextRainHoursAway <= 1
+            ? `Rain is expected within the next hour${probText}`
+            : `Rain expected around ${h.displayTime} (in ~${nextRainHoursAway} hrs)${probText}`;
+          break;
+        }
+      }
+    }
+
+    const rainForecast: RainForecastInfo = {
+      isRainingNow,
+      currentPrecipitationMm: currentPrecipMm,
+      currentProbability: hourly[0]?.precipitationProbability ?? (isRainingNow ? 100 : 0),
+      nextRainExpectedTime,
+      nextRainHoursAway,
+      rainExpectedSummary,
+      todayMaxRainChance: todayMaxProb,
+      expectedTotalMmToday: todayTotalMm,
+    };
 
     // Daily projection (next 7 days)
     const daily: DailyDataPoint[] = [];
@@ -229,6 +278,8 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
       const maxC = Math.round(dailyWeather.temperature_2m_max?.[i] ?? tempC + 3);
       const minC = Math.round(dailyWeather.temperature_2m_min?.[i] ?? tempC - 4);
       const code = dailyWeather.weather_code?.[i] ?? weatherCode;
+      const dayProbMax = dailyWeather.precipitation_probability_max?.[i] != null ? Math.round(dailyWeather.precipitation_probability_max[i]) : 0;
+      const dayPrecipSum = dailyWeather.precipitation_sum?.[i] != null ? Number(dailyWeather.precipitation_sum[i].toFixed(1)) : 0;
       
       // Slight simulated daily variation around current aqi
       const variance = (i * 7) % 25 - 10;
@@ -245,6 +296,8 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
         category: getAQILevel(dayAqi).category,
         weatherCode: code,
         weatherDescription: translateWeatherCode(code).text,
+        precipitationProbabilityMax: dayProbMax,
+        precipitationSumMm: dayPrecipSum,
       });
     }
 
@@ -255,6 +308,7 @@ export async function fetchFullAQIData(location: LocationData): Promise<FullAQID
       dominantPollutant,
       pollutants,
       weather,
+      rainForecast,
       hourly,
       daily,
       lastUpdated: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -423,6 +477,16 @@ export function getFallbackAQIData(location: LocationData): FullAQIData {
     },
     hourly,
     daily,
+    rainForecast: {
+      isRainingNow: false,
+      currentPrecipitationMm: 0,
+      currentProbability: 10,
+      nextRainExpectedTime: 'Tomorrow at 4:00 PM',
+      nextRainHoursAway: 28,
+      rainExpectedSummary: 'No rain expected today. Next chance tomorrow evening.',
+      todayMaxRainChance: 15,
+      expectedTotalMmToday: 0,
+    },
     lastUpdated: 'Just now',
     stationName: `${location.name} Ambient Quality Monitoring Station`,
     isLiveApi: false,

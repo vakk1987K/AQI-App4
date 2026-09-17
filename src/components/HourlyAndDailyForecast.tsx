@@ -114,6 +114,16 @@ export function HourlyAndDailyForecast({ hourly, daily, tempUnit, t }: ForecastP
                     {tempVal}°
                   </span>
 
+                  {/* Rain Chance Pill if > 0 */}
+                  {point.precipitationProbability != null && point.precipitationProbability > 0 ? (
+                    <div className="flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-400 text-[10px] font-mono font-semibold" title={`${point.precipitationProbability}% chance of rain (${point.precipitationMm || 0}mm)`}>
+                      <CloudRain className="w-2.5 h-2.5" />
+                      <span>{point.precipitationProbability}%</span>
+                    </div>
+                  ) : (
+                    <div className="h-[18px]" />
+                  )}
+
                   {/* Vertical bar showing AQI */}
                   <div className="w-8 h-28 bg-slate-800/80 rounded-lg p-1 flex flex-col justify-end items-center relative overflow-hidden border border-slate-700/50">
                     <div
@@ -169,6 +179,16 @@ export function HourlyAndDailyForecast({ hourly, daily, tempUnit, t }: ForecastP
                 <div className="text-xs font-mono font-semibold text-slate-200">
                   <span>{maxT}°</span> / <span className="text-slate-400">{minT}°</span>
                 </div>
+
+                {day.precipitationProbabilityMax != null && day.precipitationProbabilityMax > 0 && (
+                  <div className="mt-1.5 flex items-center gap-1 text-[10px] font-mono font-semibold text-sky-400 bg-sky-500/10 px-1.5 py-0.5 rounded">
+                    <CloudRain className="w-2.5 h-2.5" />
+                    <span>{day.precipitationProbabilityMax}%</span>
+                    {day.precipitationSumMm != null && day.precipitationSumMm > 0 && (
+                      <span className="text-slate-400">({day.precipitationSumMm}mm)</span>
+                    )}
+                  </div>
+                )}
 
                 <div className="mt-2.5 w-full pt-2 border-t border-slate-700/50 flex flex-col items-center gap-1">
                   <span

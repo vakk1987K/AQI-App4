@@ -6,6 +6,7 @@ import { WeatherSummary } from './components/WeatherSummary';
 import { PollutantsGrid } from './components/PollutantsGrid';
 import { HealthAdvisories } from './components/HealthAdvisories';
 import { HourlyAndDailyForecast } from './components/HourlyAndDailyForecast';
+import { RainForecastBanner } from './components/RainForecastBanner';
 import { PlayConsoleHub } from './components/PlayConsoleHub';
 import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { AqiScaleModal } from './components/AqiScaleModal';
@@ -248,6 +249,13 @@ export default function App() {
         {/* Atmospheric Pollutants Breakdown (PM2.5, PM10, O3, NO2, SO2, CO) */}
         <PollutantsGrid
           pollutants={aqiData.pollutants}
+          t={t}
+        />
+
+        {/* Rain Radar, Precipitation Forecast & Smart Notification Alert */}
+        <RainForecastBanner
+          rainForecast={aqiData.rainForecast}
+          location={currentLocation}
           t={t}
         />
 

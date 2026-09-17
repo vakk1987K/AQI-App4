@@ -65,6 +65,8 @@ export interface HourlyDataPoint {
   pm2_5: number;
   weatherCode: number;
   weatherDescription: string;
+  precipitationProbability?: number; // % chance of rain
+  precipitationMm?: number; // rain amount in mm
 }
 
 export interface DailyDataPoint {
@@ -78,6 +80,19 @@ export interface DailyDataPoint {
   category: AQICategory;
   weatherCode: number;
   weatherDescription: string;
+  precipitationProbabilityMax?: number; // max % rain chance
+  precipitationSumMm?: number; // total rain in mm
+}
+
+export interface RainForecastInfo {
+  isRainingNow: boolean;
+  currentPrecipitationMm: number;
+  currentProbability: number;
+  nextRainExpectedTime: string | null; // e.g. "Today at 3:00 PM"
+  nextRainHoursAway: number | null; // hours away
+  rainExpectedSummary: string; // e.g. "Light rain expected in 2 hours"
+  todayMaxRainChance: number; // 0-100%
+  expectedTotalMmToday: number;
 }
 
 export interface LocationData {
@@ -95,6 +110,7 @@ export interface FullAQIData {
   dominantPollutant: string;
   pollutants: PollutantDetail[];
   weather: WeatherMetrics;
+  rainForecast?: RainForecastInfo;
   hourly: HourlyDataPoint[];
   daily: DailyDataPoint[];
   lastUpdated: string;

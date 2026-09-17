@@ -71,6 +71,25 @@ export interface TranslationStrings {
   viewGovSources: string;
   privacyPolicy: string;
   playConsoleHub: string;
+  rainForecast: {
+    title: string;
+    subtitle: string;
+    rainingNow: string;
+    noRain: string;
+    rainChance: string;
+    expectedAt: string;
+    hoursAway: string;
+    totalExpectedToday: string;
+    notificationAlertTitle: string;
+    enableAlerts: string;
+    alertsEnabled: string;
+    alertsBlocked: string;
+    testAlertBtn: string;
+    dismiss: string;
+    simulatedAlert: string;
+    now: string;
+    todayMaxChance: string;
+  };
   close: string;
   copy: string;
   copied: string;
@@ -145,6 +164,25 @@ export const translations: Record<Language, TranslationStrings> = {
     viewGovSources: 'View Official Sources (.gov) & Disclaimer',
     privacyPolicy: 'Privacy Policy',
     playConsoleHub: 'Play Console Hub',
+    rainForecast: {
+      title: 'Rain Forecast & Alerts',
+      subtitle: 'Real-time precipitation radar & expected shower countdown',
+      rainingNow: 'Rain is falling now in this area',
+      noRain: 'No rain detected in the immediate forecast',
+      rainChance: 'Chance of rain',
+      expectedAt: 'Rain expected at',
+      hoursAway: 'hours away',
+      totalExpectedToday: 'Expected rain volume today',
+      notificationAlertTitle: 'Rain Alert Notification',
+      enableAlerts: 'Enable Rain Alerts',
+      alertsEnabled: 'Rain Alerts Active',
+      alertsBlocked: 'Notifications Blocked',
+      testAlertBtn: 'Test Rain Popup',
+      dismiss: 'Dismiss',
+      simulatedAlert: 'Upcoming Shower Alert',
+      now: 'Now',
+      todayMaxChance: 'Peak rain chance today',
+    },
     close: 'Close',
     copy: 'Copy',
     copied: 'Copied!',
@@ -280,6 +318,25 @@ export const translations: Record<Language, TranslationStrings> = {
     viewGovSources: 'आधिकारिक स्रोत (.gov) और अस्वीकरण देखें',
     privacyPolicy: 'गोपनीयता नीति',
     playConsoleHub: 'प्ले कंसोल हब',
+    rainForecast: {
+      title: 'बारिश का पूर्वानुमान एवं अलर्ट',
+      subtitle: 'सटीक वर्षा रडार और संभावित बारिश का समय',
+      rainingNow: 'इस क्षेत्र में वर्तमान में बारिश हो रही है',
+      noRain: 'आगामी घंटों में बारिश की संभावना नहीं है',
+      rainChance: 'बारिश की संभावना',
+      expectedAt: 'बारिश का अनुमानित समय',
+      hoursAway: 'घंटे बाद',
+      totalExpectedToday: 'आज कुल संभावित वर्षा',
+      notificationAlertTitle: 'बारिश का अलर्ट नोटिफिकेशन',
+      enableAlerts: 'बारिश अलर्ट चालू करें',
+      alertsEnabled: 'अलर्ट सक्रिय हैं',
+      alertsBlocked: 'सूचनाएं अवरुद्ध हैं',
+      testAlertBtn: 'टेस्ट अलर्ट पॉपअप',
+      dismiss: 'हटाएं',
+      simulatedAlert: 'आगामी बारिश की चेतावनी',
+      now: 'अभी',
+      todayMaxChance: 'आज सर्वाधिक वर्षा की संभावना',
+    },
     close: 'बंद करें',
     copy: 'कॉपी करें',
     copied: 'कॉपी हो गया!',
@@ -415,6 +472,25 @@ export const translations: Record<Language, TranslationStrings> = {
     viewGovSources: 'అధికారిక మూలాలు (.gov) & నిరాకరణ చూడండి',
     privacyPolicy: 'గోప్యతా విధానం',
     playConsoleHub: 'ప్లే కన్సోల్ హబ్',
+    rainForecast: {
+      title: 'వర్షం అంచనా & అలర్ట్స్',
+      subtitle: 'లైవ్ వర్షపాతం రాడార్ మరియు వర్షం పడే సమయ వివరాలు',
+      rainingNow: 'ప్రస్తుతం ఈ ప్రాంతంలో వర్షం పడుతోంది',
+      noRain: 'సమీప సమయంలో వర్షం పడే సూచనలు లేవు',
+      rainChance: 'వర్షం పడే అవకాశం',
+      expectedAt: 'వర్షం పడే సమయం',
+      hoursAway: 'గంటల్లో',
+      totalExpectedToday: 'ఈ రోజు మొత్తం వర్షపాతం',
+      notificationAlertTitle: 'వర్షం అలర్ట్ నోటిఫికేషన్',
+      enableAlerts: 'వర్షం అలర్ట్స్ ఆన్ చేయండి',
+      alertsEnabled: 'అలర్ట్స్ యాక్టివ్‌గా ఉన్నాయి',
+      alertsBlocked: 'నోటిఫికేషన్లు బ్లాక్ చేయబడ్డాయి',
+      testAlertBtn: 'టెస్ట్ పాప్-అప్ అలర్ట్',
+      dismiss: 'రద్దు చేయి',
+      simulatedAlert: 'రాబోయే వర్షం హెచ్చరిక',
+      now: 'ఇప్పుడే',
+      todayMaxChance: 'ఈ రోజు గరిష్ట వర్షపు అవకాశం',
+    },
     close: 'మూసివేయి',
     copy: 'కాపీ చేయండి',
     copied: 'కాపీ చేయబడింది!',
@@ -550,6 +626,25 @@ export const translations: Record<Language, TranslationStrings> = {
     viewGovSources: 'Ver fuentes oficiales (.gov) y descargo',
     privacyPolicy: 'Política de privacidad',
     playConsoleHub: 'Panel de Play Console',
+    rainForecast: {
+      title: 'Pronóstico de lluvia y alertas',
+      subtitle: 'Radar de precipitación en tiempo real y cuenta regresiva de lluvia',
+      rainingNow: 'Actualmente está lloviendo en esta zona',
+      noRain: 'No se detecta lluvia en las próximas horas',
+      rainChance: 'Probabilidad de lluvia',
+      expectedAt: 'Lluvia prevista a las',
+      hoursAway: 'horas restantes',
+      totalExpectedToday: 'Volumen de lluvia previsto hoy',
+      notificationAlertTitle: 'Notificación de alerta de lluvia',
+      enableAlerts: 'Activar alertas de lluvia',
+      alertsEnabled: 'Alertas de lluvia activadas',
+      alertsBlocked: 'Notificaciones bloqueadas',
+      testAlertBtn: 'Probar alerta emergente',
+      dismiss: 'Cerrar',
+      simulatedAlert: 'Aviso de lluvia inminente',
+      now: 'Ahora',
+      todayMaxChance: 'Máxima probabilidad de lluvia hoy',
+    },
     close: 'Cerrar',
     copy: 'Copiar',
     copied: '¡Copiado!',

@@ -17,6 +17,13 @@
     <meta name="apple-mobile-web-app-title" content="AQI App" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(function(err) {
+          console.log('SW registration error:', err);
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

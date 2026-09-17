@@ -122,6 +122,23 @@
     }
   ],
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "handle_links": "preferred",
+  "launch_handler": {
+    "client_mode": "auto"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "file_handlers": [
+    {
+      "action": "/",
+      "name": "Air Quality Data File",
+      "accept": {
+        "text/plain": [".txt", ".csv"],
+        "application/json": [".json"]
+      }
+    }
+  ],
   "related_applications": [],
   "prefer_related_applications": false
 }

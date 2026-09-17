@@ -1,16 +1,23 @@
 // Service Worker for AQI-App Weather & Rain Notifications with full offline caching
-const CACHE_NAME = 'aqi-app-cache-v2';
+const CACHE_NAME = 'aqi-app-cache-v3';
 
 const STATIC_ASSETS = [
   '/',
   '/index.html',
+  '/offline.html',
   '/manifest.json',
   '/privacy-policy.html',
   '/favicon.ico',
   '/apple-touch-icon.png',
+  '/pwa-96x96.png',
+  '/pwa-128x128.png',
   '/pwa-192x192.png',
+  '/pwa-256x256.png',
+  '/pwa-384x384.png',
   '/pwa-512x512.png',
-  '/pwa-maskable-512x512.png'
+  '/pwa-maskable-512x512.png',
+  '/screenshot-mobile-narrow.png',
+  '/screenshot-desktop-wide.png'
 ];
 
 // Install: Pre-cache shell assets
@@ -56,7 +63,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // For navigation & static assets: Cache first or Stale-While-Revalidate
+  // For navigation & static assets: Stale-While-Revalidate or Offline Fallback
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -76,9 +83,9 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // Fallback to offline home page for HTML navigation
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('/index.html');
+        // Fallback to offline page for HTML navigation
+        if (event.request.headers.get('accept')?.includes('text/html') || event.request.mode === 'navigate') {
+          return caches.match('/offline.html') || caches.match('/index.html');
         }
       });
     })

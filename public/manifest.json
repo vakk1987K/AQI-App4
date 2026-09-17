@@ -14,8 +14,32 @@
   "categories": ["weather", "health", "utilities", "lifestyle"],
   "icons": [
     {
+      "src": "/pwa-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
       "src": "/pwa-192x192.png",
       "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-384x384.png",
+      "sizes": "384x384",
       "type": "image/png",
       "purpose": "any"
     },
@@ -39,18 +63,18 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshot-mobile.png",
-      "sizes": "540x720",
+      "src": "/screenshot-mobile-narrow.png",
+      "sizes": "720x1280",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Live AQI and Rain Alert Dashboard"
+      "label": "Live AQI and Rain Alert Dashboard for Mobile"
     },
     {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1024x600",
+      "src": "/screenshot-desktop-wide.png",
+      "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "24-Hour Air Quality and Weather Outlook"
+      "label": "24-Hour Air Quality and Weather Outlook for Desktop"
     }
   ],
   "shortcuts": [
@@ -59,16 +83,29 @@
       "short_name": "Rain Alert",
       "description": "Check upcoming rain forecast countdown",
       "url": "/",
-      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Pollutants Breakdown",
       "short_name": "Pollutants",
       "description": "View PM2.5, PM10, and Ozone concentrations",
       "url": "/",
-      "icons": [{ "src": "/pwa-192x192.png", "sizes": "192x192" }]
+      "icons": [
+        {
+          "src": "/pwa-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
   ],
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "related_applications": [],
   "prefer_related_applications": false
 }

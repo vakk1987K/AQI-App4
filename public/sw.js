@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
   '/pwa-96x96.png',
   '/pwa-128x128.png',
   '/pwa-192x192.png',
+  '/pwa-maskable-192x192.png',
   '/pwa-256x256.png',
   '/pwa-384x384.png',
   '/pwa-512x512.png',
